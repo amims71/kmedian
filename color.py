@@ -34,13 +34,10 @@ def closestPoint(point, centers):
     return closestPoint
 
 
-def midPoint(points):
-    x, y, z = 0, 0, 0
-    for point in points:
-        x += point[0]
-        y += point[1]
-        z += point[2]
-    return floor(x / len(points)), floor(y / len(points)), floor(z / len(points))
+def medPoint(points):
+    counter = dict(Counter(points))
+    return max(counter, key=counter.get)
+
 
 def groupPoints(centers):
     groups = {}
@@ -79,14 +76,14 @@ groups = groupPoints(centers)
 centersOld = centers
 centers = []
 for key in groups:
-    centers.append(midPoint(groups[key]))
+    centers.append(medPoint(groups[key]))
 print(centers)
 while distance(centers[0], centersOld[0]) > 1 and distance(centers[len(centers) - 1], centersOld[len(centers) - 1]) > 1:
     groups = groupPoints(centers)
     centersOld = centers
     centers = []
     for key in groups:
-        centers.append(midPoint(groups[key]))
+        centers.append(medPoint(groups[key]))
         # print(key)
     print(centers)
 
